@@ -21,6 +21,7 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 
 	}
 		setBlankCord();
+
 		alert("x cord: "  + cordOfBlank.x + "y cord of blank space: " + cordOfBlank.y); //just checking if setBlank works.  Need to test on shuffle.
 
 }//end initial load.
@@ -36,15 +37,18 @@ function revertPiece(puzzlePiece) { //returns border settings of piece to normal
 function shuffle() { //returns mixed up board, should use swap.  This is activated onClick of shuffle item that needs to be initialized by finding the ID in html
 
 }
-function swap(puzzlePiece) { //swap with empty space.
-	var x ;
-	var y;
-	updateBlankCord(x, y );//should be used whenever a swap. pass through the  x y coordinates (Top/left) of
+//kevin Linnane
+function swap(puzzlePiece) { //swap with empty space.v
+		var temp = [puzzlePiece.style.left, puzzlePiece.style.top];
+		puzzlePiece.style.left = cordOfBlank.x + "px";
+		puzzlePiece.style.top = cordOfBlank.y + "px";
+		updateBlankCord(temp[0], temp[1] );//should be used whenever a swap. pass through the  x y coordinates (Top/left) of
 }
 
 function isNextToBlank(puzzlePiece) {//checks the box left, right, up, down to see if it can move.  If can, return true.
 
 }
+//Kevin Linnane
 function setBlankCord() {//has to be calculated iterating or keeping track of movements
 	var length = puzzlePieces.length;
 	var flag = false;
@@ -82,8 +86,11 @@ function setBlankCord() {//has to be calculated iterating or keeping track of mo
 	}
 
 }
+//Kevin Linnane
 function updateBlankCord(x, y) {
-	didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
+		cordOfBlank.x = parseInt(x);//need to parse int because temp[[0] contains 'px'
+		cordOfBlank.y = parseInt(y);
+	//didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
 
 }
 
