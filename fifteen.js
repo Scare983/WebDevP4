@@ -9,7 +9,7 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 
 	var pa = document.getElementById("puzzlearea");
 	puzzlePieces = pa.getElementsByTagName("div");// get all divs children within puzzleArea.
-	//can setBlankCord now because puzzlePieces has been populated
+
 	for(var i=0;i< puzzlePieces.length;i++) {//we have 16 divs (0-15), and want the shape to be 4x4 with a blank.
 		puzzlePieces[i].className = "puzzlepiece"; // make it the css name puzzlepiece.
 		//create format for the pieces here
@@ -19,10 +19,19 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 
 
 
+
 	}
 		setBlankCord();
+	for(var i=0;i< puzzlePieces.length;i++) { //iterate after board population.
 
-		alert("x cord: "  + cordOfBlank.x + "y cord of blank space: " + cordOfBlank.y); //just checking if setBlank works.  Need to test on shuffle.
+
+
+		if(isValidMove(puzzlePieces[i])) {
+			puzzlePieces[i].className = "puzzlepiece movablepiece";
+
+		}
+	}
+		//alert("x cord: "  + cordOfBlank.x + "y cord of blank space: " + cordOfBlank.y); //just checking if setBlank works.  Need to test on shuffle.
 
 }//end initial load.
 function didHeSheTheyItWin(){//return bool value ensuring all 15 pieces are matched to correct spot.
@@ -45,7 +54,14 @@ function swap(puzzlePiece) { //swap with empty space.v
 		updateBlankCord(temp[0], temp[1] );//should be used whenever a swap. pass through the  x y coordinates (Top/left) of
 }
 
-function isNextToBlank(puzzlePiece) {//checks the box left, right, up, down to see if it can move.  If can, return true.
+function isValidMove(puzzlePiece) {//checks the box left, right, up, down to see if it can move.  If can, return true.
+		var left = parseInt(puzzlePiece.style.left);
+		var top = parseInt(puzzlePiece.style.top);
+//fix this later 
+	if((left - 100 == cordOfBlank.x  || left + 100 == cordOfBlank.x) || (top + 100 == cordOfBlank.y || top - 100 == cordOfBlank.y) ) { //check x's and y's to blankSpace
+
+		return true;
+	}
 
 }
 //Kevin Linnane
