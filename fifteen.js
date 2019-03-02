@@ -16,9 +16,8 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 		puzzlePieces[i].style.left =(i % 4 * 100)+"px";// determiens distance from left picture should be, 100 200 300 400 pixels
 		puzzlePieces[i].style.top = (Math.floor(i/4)) * 100 + "px";						//determines how far down from top of screen puzzlepiece is, i mod 4 makes sure that our rows are 4x4.
 	//	puzzlePieces[i].onmouseover = isNextToBlank(puzzlePieces[i]);
-
-
-
+		puzzlePieces[i].style.backgroundPositionX = (((i%4  )) *  -100) + "px"; //negative because moving right, not left.
+		puzzlePieces[i].style.backgroundPositionY = ((Math.floor(i/4 )) * -100) + "px";
 
 	}
 		setBlankCord();//can only do after populated entire board.
@@ -39,10 +38,11 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 		}
 		puzzlePieces[i].onclick = function() {
 			if(isValidMove(this)) {
-					swap(this);
+				swap(this);
+				didHeSheTheyItWin();
 			}
+		};
 
-		}
 
 
 
@@ -62,7 +62,7 @@ function didHeSheTheyItWin(){//return bool value ensuring all 15 pieces are matc
 		}
 
 if(isFinished) {
-	won();
+		won();
 }
 
 		//use global variable puzzlePieces to check board state.
@@ -150,7 +150,7 @@ function setBlankCord() {//has to be calculated iterating or keeping track of mo
 function updateBlankCord(x, y) {
 		cordOfBlank.x = parseInt(x);//need to parse int because temp[[0] contains 'px'
 		cordOfBlank.y = parseInt(y);
-		didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
+		//didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
 }
 
 function setPuzzlePieces(pa)
