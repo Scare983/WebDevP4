@@ -1,14 +1,14 @@
 "use strict";
 //global variables
-var puzzlePieces;//becomes array of divs 0-15
+var puzzlePieces = new Array();//becomes array of divs 0-15
 var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to compare to
 
 //end global
 
 	window.onload = function() { //do all this on load
+		var pa = document.getElementById("puzzlearea");
+		setPuzzlePieces(pa);
 
-	var pa = document.getElementById("puzzlearea");
-	puzzlePieces = pa.getElementsByTagName("div");// get all divs children within puzzleArea.
 
 	for(var i=0;i< puzzlePieces.length;i++) {//we have 16 divs (0-15), and want the shape to be 4x4 with a blank.
 		puzzlePieces[i].className = "puzzlepiece"; // make it the css name puzzlepiece.
@@ -21,31 +21,55 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 
 
 	}
-		setBlankCord();
-	for(var i=0;i< puzzlePieces.length;i++) { //iterate after board population.
+		setBlankCord();//can only do after populated entire board.
+		var shuffleBtn = document.getElementById("shufflebutton");
+		//for some reason don't put () for the shuffle method...
+
+		shuffleBtn.onclick = function() {shuffle();};
+	for(var i=0;i< puzzlePieces.length;i++){ //iterate after board population.
 
 
-
-		if(isValidMove(puzzlePieces[i])) {
-			puzzlePieces[i].className = "puzzlepiece movablepiece";
-
+		puzzlePieces[i].onmouseover = function() {
+			if (isValidMove(this)){ //so just figuring this out, but "this" on mouse event selects the div that has the event on it.
+				this.className = "puzzlepiece movablepiece";
+			}
+		};
+		puzzlePieces[i].onmouseout = function() { // need to revert class on leave so that each div doesn't become red on hover.
+			this.className = "puzzlepiece";
 		}
+
+
 	}
 		//alert("x cord: "  + cordOfBlank.x + "y cord of blank space: " + cordOfBlank.y); //just checking if setBlank works.  Need to test on shuffle.
 
-}//end initial load.
+};//end initial load.
 function didHeSheTheyItWin(){//return bool value ensuring all 15 pieces are matched to correct spot.
-	//use global variable puzzlePieces to check board state.
+	if()
+
+		//use global variable puzzlePieces to check board state.
 }
 function won() {//return alert or something to show that the player won.
 
 }
-function revertPiece(puzzlePiece) { //returns border settings of piece to normal.  May not need this.
-
-}
 function shuffle() { //returns mixed up board, should use swap.  This is activated onClick of shuffle item that needs to be initialized by finding the ID in html
 
+		for (var i =0; i < 1000; i++) {
+
+			var arrays = new Array();
+			for(var j =0; j < puzzlePieces.length; j++) {
+				if(isValidMove(puzzlePieces[j])) {
+					arrays.push(puzzlePieces[j]);
+		}
+
 }
+
+			var rand = Math.floor((Math.random() * Math.floor(arrays.length)));
+
+			swap(arrays[rand]);
+	}
+}
+
+
 //kevin Linnane
 function swap(puzzlePiece) { //swap with empty space.v
 		var temp = [puzzlePiece.style.left, puzzlePiece.style.top];
@@ -57,10 +81,12 @@ function swap(puzzlePiece) { //swap with empty space.v
 function isValidMove(puzzlePiece) {//checks the box left, right, up, down to see if it can move.  If can, return true.
 		var left = parseInt(puzzlePiece.style.left);
 		var top = parseInt(puzzlePiece.style.top);
-//fix this later 
-	if((left - 100 == cordOfBlank.x  || left + 100 == cordOfBlank.x) || (top + 100 == cordOfBlank.y || top - 100 == cordOfBlank.y) ) { //check x's and y's to blankSpace
-
+	//fix this later
+	if((left - 100 == cordOfBlank.x &&cordOfBlank.y == top)  || (left + 100 == cordOfBlank.x  && cordOfBlank.y == top)|| (top + 100 == cordOfBlank.y && left == cordOfBlank.x)|| (top - 100 == cordOfBlank.y && left == cordOfBlank.x) ) { //check x's and y's to blankSpace
 		return true;
+	}
+	else {
+		return false;
 	}
 
 }
@@ -106,10 +132,11 @@ function setBlankCord() {//has to be calculated iterating or keeping track of mo
 function updateBlankCord(x, y) {
 		cordOfBlank.x = parseInt(x);//need to parse int because temp[[0] contains 'px'
 		cordOfBlank.y = parseInt(y);
-	//didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
-
+		didHeSheTheyItWin();//on update of blank coordinate, check if there is winner and won();
 }
 
+function setPuzzlePieces(pa)
+{
+	puzzlePieces = pa.getElementsByTagName("div");// get all divs children within puzzleArea.
 
-
-
+}
