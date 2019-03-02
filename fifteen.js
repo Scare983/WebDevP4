@@ -37,6 +37,13 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 		puzzlePieces[i].onmouseout = function() { // need to revert class on leave so that each div doesn't become red on hover.
 			this.className = "puzzlepiece";
 		}
+		puzzlePieces[i].onclick = function() {
+			if(isValidMove(this)) {
+					swap(this);
+			}
+
+		}
+
 
 
 	}
@@ -44,17 +51,28 @@ var cordOfBlank = {x:0, y:0};//keep track of pixel top and left of blank div to 
 
 };//end initial load.
 function didHeSheTheyItWin(){//return bool value ensuring all 15 pieces are matched to correct spot.
-	if()
+	var isFinished = true;
+	for(var i = 0; i < puzzlePieces.length; i++) {
+		var left = parseInt(puzzlePieces[i].style.left);
+		var top = parseInt(puzzlePieces[i].style.left);
+		//compare to original placement.
+			if(left !=i %4 * 100  && top != i / 4 * 100 ) {
+				isFinished = false;
+			}
+		}
+
+if(isFinished) {
+	won();
+}
 
 		//use global variable puzzlePieces to check board state.
 }
 function won() {//return alert or something to show that the player won.
-
+	alert("You WON!  please shuffle.");
 }
 function shuffle() { //returns mixed up board, should use swap.  This is activated onClick of shuffle item that needs to be initialized by finding the ID in html
 
 		for (var i =0; i < 1000; i++) {
-
 			var arrays = new Array();
 			for(var j =0; j < puzzlePieces.length; j++) {
 				if(isValidMove(puzzlePieces[j])) {
